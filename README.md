@@ -8,3 +8,6 @@ You just need to specify link to post in LJIR and hit "Работай" button. W
 Flickr.
 
 English translation of LJIR coming soon.
+
+VirusTotal: https://goo.gl/B8YD72
+One engine says LJIR is "malicious". Don't believe him. Believe me. I'm honest.

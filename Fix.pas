@@ -103,6 +103,18 @@ begin
     raise Exception.Create('Ошибка при установке прокси (Fix/Proxy)');
 end;
 
+function FileSize(const aFilename: String): Int64;
+var
+  info: TWin32FileAttributeData;
+begin
+  result := -1;
+
+  if NOT GetFileAttributesEx(PWideChar(aFileName), GetFileExInfoStandard, @info) then
+    EXIT;
+
+  result := Int64(info.nFileSizeLow) or Int64(info.nFileSizeHigh shl 32);
+end;
+
 procedure TFix.FixEvent(EventURL: string; EventDomains: TStringList);
 var
   i, j: Integer;
@@ -155,17 +167,21 @@ begin
       end;
       if (Searching=5) and (Data[i]='>') then
       begin
-        if EventDomains.Count>0 then
-        begin
-          for j := 0 to EventDomains.Count-1 do
-            if Pos(EventDomains[j],PhotoURL)<>0 then
-            begin
-              Result:=Format(Result,[UploadPhoto(DownloadPhoto(PhotoURL))]);
-              Break;
-            end;
-        end
+        if FileSize(DownloadPhoto(PhotoURL))<4096 then Result:=Format(Result,[PhotoURL])
         else
-          Result:=Format(Result,[UploadPhoto(DownloadPhoto(PhotoURL))]);
+        begin
+          if EventDomains.Count>0 then
+          begin
+            for j := 0 to EventDomains.Count-1 do
+              if Pos(EventDomains[j],PhotoURL)<>0 then
+              begin
+                Result:=Format(Result,[UploadPhoto(DownloadPhoto(PhotoURL))]);
+                Break;
+              end;
+          end
+          else
+            Result:=Format(Result,[UploadPhoto(DownloadPhoto(PhotoURL))]);
+        end;
         Result:=Format(Result,[PhotoURL]);
         PhotoURL:='';
         Searching:=0;

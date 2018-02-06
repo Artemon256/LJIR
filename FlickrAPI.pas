@@ -165,11 +165,14 @@ const
 var
   XML: TXMLObject;
   URL, Farm, Server, PhotoSecret, Ext: String;
+  Debug: TStringStream;
 begin
   XML := TXMLObject.Create;
   URL := Format(FLICKR_URL,[Consumer,id]);
-
+  Debug := TStringStream.Create;
   try
+    Debug.LoadFromStream(HTTPclient.Get(URL).ContentStream);
+    Debug.SaveToFile('debug.txt');
     XML.LoadFromStream(HTTPclient.Get(URL).ContentStream);
     Farm:=XML.NodeByPath('rsp/photo').AttributeByName('farm').AsString;
     Server:=XML.NodeByPath('rsp/photo').AttributeByName('server').AsString;
@@ -177,11 +180,13 @@ begin
     Ext:=XML.NodeByPath('rsp/photo').AttributeByName('originalformat').AsString;
   except
     XML.Free;
+    Debug.Free;
     Raise Exception.Create('Ошибка получения URL фотографии (Flickr)');
   end;
 
   Result := Format(STATIC_URL,[Farm,Server,id,PhotoSecret,Ext]);
 
+  Debug.Free;
   XML.Free;
 end;
 

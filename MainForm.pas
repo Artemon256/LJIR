@@ -130,6 +130,10 @@ begin
   PostIndex := 0;
   Fix.PBCallback := PBCB;
   Fix.EndCallback := EndCallback;
+  if moDomains.Text = 'А сюда - домены, которые хотите обработать'+#13#10 then
+    moDomains.Clear;
+  if moPosts.Text = 'Сюда пихайте ссылки на посты'+#13#10 then
+    moPosts.Clear;
   Fix.URLS.Assign(moPosts.Lines);
   Fix.Domains.Assign(moDomains.Lines);
   Fix.Start;

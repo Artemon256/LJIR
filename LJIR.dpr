@@ -6,7 +6,9 @@ uses
   LJAPI in 'LJAPI.pas',
   FlickrAPI in 'FlickrAPI.pas',
   XMLObject in 'XMLObject.pas',
-  Fix in 'Fix.pas';
+  Fix in 'Fix.pas',
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.res}
 

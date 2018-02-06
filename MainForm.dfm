@@ -24,7 +24,7 @@ object fmMain: TfmMain
     Top = 0
     Width = 584
     Height = 261
-    ActivePage = tsLJLogin
+    ActivePage = tsMain
     Align = alClient
     TabOrder = 0
     object tsLJLogin: TTabSheet
@@ -114,6 +114,10 @@ object fmMain: TfmMain
       Caption = 'tsFlickr'
       ImageIndex = 1
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain2: TGroupBox
         Left = 3
         Top = 3
@@ -167,6 +171,10 @@ object fmMain: TfmMain
       Caption = 'tsFlickrAuth'
       ImageIndex = 2
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain3: TGroupBox
         Left = 3
         Top = 3
@@ -1559,6 +1567,10 @@ object fmMain: TfmMain
       Caption = 'tsProxy'
       ImageIndex = 3
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain4: TGroupBox
         Left = 3
         Top = 3

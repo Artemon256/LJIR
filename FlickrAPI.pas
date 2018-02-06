@@ -236,7 +236,8 @@ begin
         raise Exception.Create('Ошибка при загрузке фото (Flick/HTTP)');
     end;
     try
-      if P=-1 then raise Exception.Create('');
+      if P=0 then
+        raise Exception.Create('');
     except
       raise Exception.Create('Ошибка при загрузке фото (Flickr/Photo)');
     end;

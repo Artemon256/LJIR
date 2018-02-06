@@ -182,7 +182,6 @@ begin
   end;
 end;
 
-
 function TFix.UploadPhoto(Path: string): String;
 begin
   Result := Flickr.UploadPhoto(Path);

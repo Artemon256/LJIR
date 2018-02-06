@@ -1,12 +1,12 @@
 # LJIR
 LiveJournal Image Reuploader
 
-Small program which reuploads images from LiveJournal to Flickr. 
+A small program which reuploads images from LiveJournal to Flickr. 
 
-For example, you have photos uploaded to service which is blocked in your county (e.g. Yandex.Fotki in Ukraine). You just need to specify link to post in LJIR and hit "РАБОТАЙ" button. Wait several minutes and you'll have all the images from post reuploaded to Flickr.
+For example, you have the photos uploaded to a service which is banned in your country (Yandex.Fotki in Ukraine). You just need to specify a link to the post in LJIR and hit "РАБОТАЙ" button. After a few minutes  you'll have all the images from the post reuploaded to Flickr.
 
-English translation of LJIR is coming soon.
+The English version of LJIR is coming soon.
 
-VirusTotal: https://goo.gl/B8YD72
+In order to protect your Flickr account from being spammed by avatars and other stuff, LJIR  ignores the photos sized less than 4kb.  If you want to change the minimal size of a file just set the prefered value in "Fix.pas" at line 170 and recompile the project
 
-One engine says LJIR is "malicious". Don't believe him. Believe me. I'm honest.
+VirusTotal: https://goo.gl/aPoR8A

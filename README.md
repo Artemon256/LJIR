@@ -9,4 +9,4 @@ The English version of LJIR is coming soon.
 
 In order to protect your Flickr account from being spammed by avatars and other stuff, LJIR  ignores the photos sized less than 4kb.  If you want to change the minimal size of a file just set the prefered value in "Fix.pas" at line 170 and recompile the project.
 
-VirusTotal: https://goo.gl/aPoR8A
+VirusTotal: https://goo.gl/sQX81q

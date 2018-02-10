@@ -100,7 +100,7 @@ var
   Post: TLJPost;
   Data, CurURL: String;
   BackupStream: TStringStream;
-  i, j: Integer;
+  i, j, ps, q: Integer;
   IsTag, IsImgTag, IsSrc, IsEq, IsURL, IsURLClosed, DomainFound: Boolean;
 begin
   BackupStream := TStringStream.Create;
@@ -131,13 +131,15 @@ begin
         begin
           DomainFound := False;
           for j := 0 to Domains.Count-1 do
-            if Pos(Domains[i],CurURL)>0 then
+            if Pos(Domains[j],CurURL)>0 then
             begin
               DomainFound := True;
               Break;
             end;
           if DomainFound then
-            Data := Data + '"' + Reupload(CurURL) + '"';
+            Data := Data + '"' + Reupload(CurURL) + '"'
+          else
+            Data := Data + '"' + CurURL + '"';
         end;
         CurURL := '';
       end;
@@ -186,6 +188,20 @@ begin
     end);
     raise;
   end;
+
+  ps := Pos('share.php?type=livejournal&amp;id=',Data);
+  if ps>0 then
+  begin
+    for i := ps downto 1 do
+    begin
+      q:=i;
+      if Data[i]='<' then
+        Break;
+    end;
+    Data := Copy(Data,1,q-1);
+    Data := Data + '<lj-like buttons="repost,facebook,twitter,google,vkontakte" /></lj-cut>';
+  end;
+
   Post.Text := Data;
   LiveJournal.EditEvent(Post);
   Synchronize(procedure begin

@@ -63,6 +63,7 @@ type
   public
     procedure PBCB(value: Integer; Total: Boolean);
     procedure EndCallback;
+    procedure ErrCB;
   end;
 
 var
@@ -73,6 +74,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfmMain.ErrCB;
+begin
+  ShowMessage('Произошла ошибка');
+end;
 
 procedure TfmMain.PBCB(value: Integer; Total: Boolean);
 begin
@@ -130,6 +136,7 @@ begin
   PostIndex := 0;
   Fix.PBCallback := PBCB;
   Fix.EndCallback := EndCallback;
+  Fix.ErrCallback := ErrCB;
   if moDomains.Text = 'А сюда - домены, которые хотите обработать'+#13#10 then
     moDomains.Clear;
   if moPosts.Text = 'Сюда пихайте ссылки на посты'+#13#10 then

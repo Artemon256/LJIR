@@ -198,6 +198,7 @@ begin
     Request.AddFile('photo',Filename);
     try
       XML.LoadFromStream(HTTPclient.Post(FLICKR_UPLOAD_URL,Request).ContentStream);
+//      XML.SaveToFile('debug.xml');
     except
       raise Exception.Create('Ошибка при загрузке фото (Flickr/HTTP)');
     end;

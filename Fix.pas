@@ -9,6 +9,7 @@ uses
 type
   TProgressBarCallback = procedure(value: Integer; Total: Boolean) of object;
   TEndCallback = procedure of object;
+  TErrCallback = procedure of object;
   TFix = class(TThread)
     private
       HTTPclient: TNetHTTPClient;
@@ -24,6 +25,7 @@ type
       Domains, URLS: TStringList;
       PBCallback: TProgressBarCallback;
       EndCallback: TEndCallback;
+      ErrCallback: TErrCallback;
       constructor Create(Login, Pass: String); overload;
       procedure FlickrRedirect;
       procedure FlickrAuth(Verifier: String);
@@ -33,7 +35,7 @@ type
         ProxyPass: string = '');
       function MakeCopy: TFix;
       procedure Execute; override;
-//      procedure TestFlickr;
+      function Reupload(URL: String): String;
   end;
 
 implementation
@@ -124,7 +126,7 @@ begin
       begin
         IsURLClosed := False;
         if Domains.Count=0 then
-          Data := Data + '"' + UploadPhoto(DownloadPhoto(CurURL)) + '"'
+          Data := Data + '"' + Reupload(CurURL) + '"'
         else
         begin
           DomainFound := False;
@@ -135,7 +137,7 @@ begin
               Break;
             end;
           if DomainFound then
-            Data := Data + '"' + UploadPhoto(DownloadPhoto(CurURL)) + '"';
+            Data := Data + '"' + Reupload(CurURL) + '"';
         end;
         CurURL := '';
       end;
@@ -173,20 +175,48 @@ begin
       else
         Data := Data + Post.Text[i];
     end;
-  finally
+  except
+    Synchronize(procedure begin
+      if Assigned(ErrCallback) then
+        ErrCallback;
+    end);
     Synchronize(procedure begin
       if Assigned(EndCallback) then
         EndCallback;
-    end)
+    end);
+    raise;
   end;
   Post.Text := Data;
   LiveJournal.EditEvent(Post);
+  Synchronize(procedure begin
+    if Assigned(EndCallback) then
+      EndCallback;
+  end);
 end;
 
-//procedure TFix.TestFlickr;
-//begin
-//  Flickr.UploadPhoto('test.jpg')
-//end;
+function GetFileSize(Path: String): Int64;
+var
+  F: File of Byte;
+begin
+  AssignFile(F,Path);
+  Reset(F);
+  Result := FileSize(F);
+  CloseFile(F);
+end;
+
+function TFix.Reupload(URL: string): String;
+var
+  Path: String;
+begin
+  Result := URL;
+  Path := DownloadPhoto(URL);
+  if GetFileSize(Path)<4096 then
+  begin
+    System.SysUtils.DeleteFile(Path);
+    Exit;
+  end;
+  Result := UploadPhoto(Path);
+end;
 
 function TFix.UploadPhoto(Path: string): String;
 begin
@@ -250,7 +280,11 @@ var
   i: Integer;
 begin
   for i := 0 to URLS.Count-1 do
-    FixEvent(URLS[i]);
+    try
+      FixEvent(URLS[i]);
+    except
+      Continue;
+    end;
 end;
 
 end.

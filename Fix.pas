@@ -1,4 +1,4 @@
-unit Fix;
+                                                                                          unit Fix;
 
 interface
 
@@ -128,29 +128,37 @@ begin
       if IsURLClosed then
       begin
         IsURLClosed := False;
-        if Domains.Count=0 then
+        if not CurURL.StartsWith('http',True) then
         begin
-          Data := Data + '"' + Reupload(CurURL) + '"';
-          AnyChange := True;
+          Data := Data + '"' + CurURL + '"';
+          CurURL := '';
         end
         else
         begin
-          DomainFound := False;
-          for j := 0 to Domains.Count-1 do
-            if Pos(Domains[j],CurURL)>0 then
-            begin
-              DomainFound := True;
-              Break;
-            end;
-          if DomainFound then
+          if Domains.Count=0 then
           begin
             Data := Data + '"' + Reupload(CurURL) + '"';
             AnyChange := True;
           end
           else
-            Data := Data + '"' + CurURL + '"';
+          begin
+            DomainFound := False;
+            for j := 0 to Domains.Count-1 do
+              if Pos(Domains[j],CurURL)>0 then
+              begin
+                DomainFound := True;
+                Break;
+              end;
+            if DomainFound then
+            begin
+              Data := Data + '"' + Reupload(CurURL) + '"';
+              AnyChange := True;
+            end
+            else
+              Data := Data + '"' + CurURL + '"';
+          end;
+          CurURL := '';
         end;
-        CurURL := '';
       end;
 
       if (Post.Text[i]='<') and not IsTag then

@@ -26,6 +26,7 @@ type
       PBCallback: TProgressBarCallback;
       EndCallback: TEndCallback;
       ErrCallback: TErrCallback;
+      LastPost: String;
       constructor Create(Login, Pass: String); overload;
       procedure FlickrRedirect;
       procedure FlickrAuth(Verifier: String);
@@ -101,9 +102,10 @@ var
   Data, CurURL: String;
   BackupStream: TStringStream;
   i, j, ps, q: Integer;
-  IsTag, IsImgTag, IsSrc, IsEq, IsURL, IsURLClosed, DomainFound: Boolean;
+  IsTag, IsImgTag, IsSrc, IsEq, IsURL, IsURLClosed, DomainFound, AnyChange: Boolean;
 begin
   BackupStream := TStringStream.Create;
+  AnyChange := False;
   try
     Post := LiveJournal.GetEvent(EventURL);
     Synchronize(procedure begin
@@ -118,6 +120,7 @@ begin
     IsURLClosed := False;
     for i := 1 to Length(Post.Text) do
     begin
+      if Terminated then Exit;
       Synchronize(procedure begin
         if Assigned(PBCallback) then
           PBCallback(i,False);
@@ -126,7 +129,10 @@ begin
       begin
         IsURLClosed := False;
         if Domains.Count=0 then
-          Data := Data + '"' + Reupload(CurURL) + '"'
+        begin
+          Data := Data + '"' + Reupload(CurURL) + '"';
+          AnyChange := True;
+        end
         else
         begin
           DomainFound := False;
@@ -137,7 +143,10 @@ begin
               Break;
             end;
           if DomainFound then
-            Data := Data + '"' + Reupload(CurURL) + '"'
+          begin
+            Data := Data + '"' + Reupload(CurURL) + '"';
+            AnyChange := True;
+          end
           else
             Data := Data + '"' + CurURL + '"';
         end;
@@ -192,6 +201,7 @@ begin
   ps := Pos('share.php?type=livejournal&amp;id=',Data);
   if ps>0 then
   begin
+    AnyChange := True;
     for i := ps downto 1 do
     begin
       q:=i;
@@ -203,7 +213,8 @@ begin
   end;
 
   Post.Text := Data;
-  LiveJournal.EditEvent(Post);
+  if AnyChange then
+    LiveJournal.EditEvent(Post);
   Synchronize(procedure begin
     if Assigned(EndCallback) then
       EndCallback;
@@ -297,6 +308,8 @@ var
 begin
   for i := 0 to URLS.Count-1 do
     try
+      if Terminated then Exit;
+      LastPost := URLs[i];
       FixEvent(URLS[i]);
     except
       Continue;

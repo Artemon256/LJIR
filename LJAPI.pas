@@ -4,7 +4,7 @@ interface
 
 uses
   System.Net.HTTPclientComponent, System.Classes, System.SysUtils, IdHashMessageDigest,
-  idURI;
+  System.Net.HttpClient, System.NetEncoding;
 
 type
   TLJPost = record
@@ -104,7 +104,8 @@ function TLiveJournal.GetEvent(URL: string): TLJPost;
 var
   i, ItemID, state: Integer;
   Request, Response: TStringList;
-  Challenge, DItemID, PostTime, Debug: String;
+  Challenge, DItemID, PostTime: String;
+  //DebugRSP: IHTTPResponse;
   OK: Boolean;
 begin
   URL:=ExtractFileName(StringReplace(URL,'/','\',[rfReplaceAll]));
@@ -128,33 +129,37 @@ begin
   Request.Add('selecttype=one');
   Request.Add('itemid='+IntToStr(ItemID));
   try
-    Debug := AnsiToUtf8(HTTPclient.Post(LJURL,Request).ContentAsString);
-    Response.Text := Debug;
+    Response.Text := HTTPclient.Post(LJURL,Request).ContentAsString(TEncoding.ANSI);
   except
     Raise Exception.Create('Ошибка при загрузке поста (LiveJournal)');
   end;
 
-  OK := False;
-  for i := 0 to Response.Count-1 do
-    if (Response[i]='success') and (Response[i+1]='OK') then
-    begin
-      OK := True;
-      Break;
-    end;
-  if not OK then
-    Raise Exception.Create('Ошибка при загрузке поста (LiveJournal)');
+//  OK := False;
+//  for i := 0 to Response.Count-1 do
+//    if (Response[i]='success') and (Response[i+1]='OK') then
+//    begin
+//      OK := True;
+//      Break;
+//    end;
+//  if not OK then
+//    Raise Exception.Create('Ошибка при загрузке поста (LiveJournal)');
 
   for i := 0 to Response.Count-1 do
   begin
     if Response[i]='events_1_subject' then
-      Result.Header := Response[i+1];
+      Result.Header := TNetEncoding.URL.URLDecode(Response[i+1]);
 
     if Response[i]='events_1_event' then
-      Result.Text := TIdURI.URLDecode(Response[i+1]);
+      Result.Text := TNetEncoding.URL.URLDecode(Response[i+1]);
 
     if Response[i]='events_1_eventtime' then
-      PostTime := TIdURI.URLDecode(Response[i+1]);
+      PostTime := TNetEncoding.URL.URLDecode(Response[i+1]);
   end;
+
+  Result.Header := UTF8ToString(Result.Header);
+
+  if (Result.Text = '') and (Result.Header= '') then
+    Raise Exception.Create('Ошибка при загрузке поста (LiveJournal)');
 
   state:=0;
   for i := 1 to Length(PostTime) do

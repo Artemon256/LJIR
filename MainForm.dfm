@@ -24,16 +24,12 @@ object fmMain: TfmMain
     Top = 0
     Width = 584
     Height = 261
-    ActivePage = tsProxy
+    ActivePage = tsMain
     Align = alClient
     TabOrder = 0
     object tsLJLogin: TTabSheet
       Caption = 'tsLJLogin'
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbParams: TGroupBox
         Left = 295
         Top = 3
@@ -118,10 +114,6 @@ object fmMain: TfmMain
       Caption = 'tsFlickr'
       ImageIndex = 1
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbExplain2: TGroupBox
         Left = 3
         Top = 3
@@ -175,10 +167,6 @@ object fmMain: TfmMain
       Caption = 'tsFlickrAuth'
       ImageIndex = 2
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbExplain3: TGroupBox
         Left = 3
         Top = 3
@@ -1687,56 +1675,101 @@ object fmMain: TfmMain
       Caption = 'tsMain'
       ImageIndex = 4
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
-      object pbCurrent: TGauge
-        Left = 3
-        Top = 199
-        Width = 495
-        Height = 17
-        Progress = 0
-      end
-      object pbTotal: TGauge
-        Left = 3
-        Top = 222
-        Width = 495
-        Height = 17
-        Progress = 0
-      end
-      object moPosts: TMemo
-        Left = 3
-        Top = 3
-        Width = 278
-        Height = 190
-        TabStop = False
-        Lines.Strings = (
-          #1057#1102#1076#1072' '#1087#1080#1093#1072#1081#1090#1077' '#1089#1089#1099#1083#1082#1080' '#1085#1072' '#1087#1086#1089#1090#1099)
-        ScrollBars = ssBoth
-        TabOrder = 1
-        OnClick = moPostsClick
-      end
-      object moDomains: TMemo
-        Left = 295
-        Top = 3
-        Width = 278
-        Height = 190
-        TabStop = False
-        Lines.Strings = (
-          #1040' '#1089#1102#1076#1072' - '#1076#1086#1084#1077#1085#1099', '#1082#1086#1090#1086#1088#1099#1077' '#1093#1086#1090#1080#1090#1077' '#1086#1073#1088#1072#1073#1086#1090#1072#1090#1100)
-        ScrollBars = ssBoth
-        TabOrder = 2
-        OnClick = moDomainsClick
-      end
-      object btStart: TButton
-        Left = 504
-        Top = 199
-        Width = 69
-        Height = 40
-        Caption = #1056#1040#1041#1054#1058#1040#1049
+      object pcReuploader: TPageControl
+        Left = 0
+        Top = 0
+        Width = 576
+        Height = 251
+        ActivePage = tsProgress
+        Align = alClient
         TabOrder = 0
-        OnClick = btStartClick
+        object tsSetting: TTabSheet
+          Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
+          TabVisible = False
+          ExplicitTop = 24
+          ExplicitHeight = 223
+          object moDomains: TMemo
+            Left = 287
+            Top = 3
+            Width = 278
+            Height = 183
+            TabStop = False
+            Lines.Strings = (
+              #1040' '#1089#1102#1076#1072' - '#1076#1086#1084#1077#1085#1099', '#1082#1086#1090#1086#1088#1099#1077' '#1093#1086#1090#1080#1090#1077' '#1086#1073#1088#1072#1073#1086#1090#1072#1090#1100)
+            ScrollBars = ssBoth
+            TabOrder = 1
+            OnClick = moDomainsClick
+          end
+          object moPosts: TMemo
+            Left = 3
+            Top = 3
+            Width = 278
+            Height = 183
+            TabStop = False
+            Lines.Strings = (
+              #1057#1102#1076#1072' '#1087#1080#1093#1072#1081#1090#1077' '#1089#1089#1099#1083#1082#1080' '#1085#1072' '#1087#1086#1089#1090#1099)
+            ScrollBars = ssBoth
+            TabOrder = 2
+            OnClick = moPostsClick
+          end
+          object btStart: TButton
+            Left = 485
+            Top = 192
+            Width = 80
+            Height = 46
+            Caption = #1056#1040#1041#1054#1058#1040#1049
+            TabOrder = 0
+            OnClick = btStartClick
+          end
+        end
+        object tsProgress: TTabSheet
+          Caption = #1055#1088#1086#1075#1088#1077#1089#1089
+          ImageIndex = 1
+          TabVisible = False
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          object pbCurrent: TGauge
+            Left = 3
+            Top = 192
+            Width = 476
+            Height = 22
+            Progress = 0
+          end
+          object pbTotal: TGauge
+            Left = 3
+            Top = 216
+            Width = 476
+            Height = 22
+            Progress = 0
+          end
+          object moProgress: TMemo
+            Left = 3
+            Top = 3
+            Width = 562
+            Height = 183
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 0
+          end
+          object btStop: TButton
+            Left = 485
+            Top = 216
+            Width = 80
+            Height = 22
+            Caption = #1047#1040#1043#1051#1054#1061#1053#1048
+            TabOrder = 1
+            OnClick = btStopClick
+          end
+          object btPause: TButton
+            Left = 485
+            Top = 192
+            Width = 80
+            Height = 22
+            Caption = #1055#1040#1059#1047#1040
+            TabOrder = 2
+            OnClick = btPauseClick
+          end
+        end
       end
     end
   end

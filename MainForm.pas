@@ -44,6 +44,12 @@ type
     btOK: TButton;
     pbCurrent: TGauge;
     pbTotal: TGauge;
+    pcReuploader: TPageControl;
+    tsSetting: TTabSheet;
+    tsProgress: TTabSheet;
+    moProgress: TMemo;
+    btStop: TButton;
+    btPause: TButton;
     procedure btLJLoginClick(Sender: TObject);
     procedure btUnderstandClick(Sender: TObject);
     procedure btFlickrAuthClick(Sender: TObject);
@@ -58,6 +64,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure moDomainsClick(Sender: TObject);
     procedure moPostsClick(Sender: TObject);
+    procedure btStopClick(Sender: TObject);
+    procedure btPauseClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -70,6 +78,8 @@ var
   fmMain: TfmMain;
   Fix: TFix;
   PostIndex: Integer;
+  ErrPosts: TStringList;
+  Pause: Boolean;
 
 implementation
 
@@ -77,7 +87,9 @@ implementation
 
 procedure TfmMain.ErrCB;
 begin
-  ShowMessage('œÓËÁÓ¯Î‡ Ó¯Ë·Í‡');
+  moProgress.Lines[moProgress.Lines.Count-1] := Fix.LastPost + ' - Ó¯Ë·Í‡!';
+  ErrPosts.Add(Fix.LastPost);
+  ErrPosts.SaveToFile('errposts.txt');
 end;
 
 procedure TfmMain.PBCB(value: Integer; Total: Boolean);
@@ -86,6 +98,7 @@ begin
   begin
     pbCurrent.MaxValue := value;
     pbCurrent.MinValue := 0;
+    moProgress.Lines.Add(Fix.LastPost + ' - Ó·‡·‡Ú˚‚‡ÂÚÒˇ');
   end
   else
     pbCurrent.Progress := value;
@@ -112,16 +125,35 @@ begin
     else
       Fix.SetProxy(edHost.Text,StrToInt(edPort.Text));
   pcMain.ActivePage := tsMain;
+  pcReuploader.ActivePage := tsSetting;
+end;
+
+procedure TfmMain.btPauseClick(Sender: TObject);
+begin
+  Pause := not Pause;
+  if Pause then
+  begin
+    btPause.Caption := '–¿¡Œ“¿…';
+    Fix.Suspend;
+  end
+  else
+  begin
+    btPause.Caption := 'œ¿”«¿';
+    Fix.Resume;
+  end;
 end;
 
 procedure TfmMain.EndCallback;
 begin
+  moProgress.Lines[moProgress.Lines.Count-1] := Fix.LastPost + ' - „ÓÚÓ‚Ó';
+
   inc(PostIndex);
   pbCurrent.Progress := 0;
   pbTotal.Progress := pbTotal.Progress + 1;
   if PostIndex >= moPosts.Lines.Count then
   begin
-    Fix := Fix.MakeCopy;
+    btPause.Enabled := False;
+    btStop.Caption := 'Õ¿«¿ƒ';
     pbTotal.Progress := 0;
     pcMain.Enabled := True;
     ShowMessage('ﬂ ‚Ò∏!');
@@ -131,6 +163,11 @@ end;
 
 procedure TfmMain.btStartClick(Sender: TObject);
 begin
+  btPause.Enabled := True;
+  btStop.Caption := '«¿√ÀŒ’Õ»';
+  Fix := Fix.MakeCopy;
+  moProgress.Clear;
+  pcReuploader.ActivePage := tsProgress;
   pbTotal.MaxValue := fmMain.moPosts.Lines.Count;
   pbTotal.Progress := 0;
   PostIndex := 0;
@@ -144,7 +181,15 @@ begin
   Fix.URLS.Assign(moPosts.Lines);
   Fix.Domains.Assign(moDomains.Lines);
   Fix.Start;
-  pcMain.Enabled := False;
+//  pcMain.Enabled := False;
+end;
+
+procedure TfmMain.btStopClick(Sender: TObject);
+begin
+  Pause := False;
+  btPause.Caption := 'œ¿”«¿';
+  Fix.Terminate;
+  pcReuploader.ActivePage := tsSetting;
 end;
 
 procedure TfmMain.btUnderstandClick(Sender: TObject);
@@ -209,6 +254,8 @@ begin
   System.SysUtils.CreateDir(SlashDir(OwnDir)+'backup');
   System.SysUtils.CreateDir(SlashDir(OwnDir)+'temp');
   pcMain.ActivePage := tsLJLogin;
+  ErrPosts := TStringList.Create;
+  Pause := False;
 end;
 
 procedure TfmMain.moDomainsClick(Sender: TObject);

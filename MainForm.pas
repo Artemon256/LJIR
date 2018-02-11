@@ -145,7 +145,8 @@ end;
 
 procedure TfmMain.EndCallback;
 begin
-  moProgress.Lines[moProgress.Lines.Count-1] := Fix.LastPost + ' - готово';
+  if Pos('ошибка',moProgress.Lines[moProgress.Lines.Count-1])=0 then
+    moProgress.Lines[moProgress.Lines.Count-1] := Fix.LastPost + ' - готово';
 
   inc(PostIndex);
   pbCurrent.Progress := 0;

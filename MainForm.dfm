@@ -31,6 +31,10 @@ object fmMain: TfmMain
     object tsLJLogin: TTabSheet
       Caption = 'tsLJLogin'
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbParams: TGroupBox
         Left = 295
         Top = 3
@@ -115,6 +119,10 @@ object fmMain: TfmMain
       Caption = 'tsFlickr'
       ImageIndex = 1
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain2: TGroupBox
         Left = 3
         Top = 3
@@ -168,6 +176,10 @@ object fmMain: TfmMain
       Caption = 'tsFlickrAuth'
       ImageIndex = 2
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain3: TGroupBox
         Left = 3
         Top = 3
@@ -1560,6 +1572,10 @@ object fmMain: TfmMain
       Caption = 'tsProxy'
       ImageIndex = 3
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain4: TGroupBox
         Left = 3
         Top = 3
@@ -1687,8 +1703,6 @@ object fmMain: TfmMain
         object tsSetting: TTabSheet
           Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
           TabVisible = False
-          ExplicitTop = 24
-          ExplicitHeight = 223
           object moDomains: TMemo
             Left = 287
             Top = 3
@@ -1727,8 +1741,6 @@ object fmMain: TfmMain
           Caption = #1055#1088#1086#1075#1088#1077#1089#1089
           ImageIndex = 1
           TabVisible = False
-          ExplicitLeft = 0
-          ExplicitTop = 0
           object pbCurrent: TGauge
             Left = 3
             Top = 192

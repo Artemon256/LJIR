@@ -177,6 +177,7 @@ const
 var
   Request: TMultipartFormData;
   Nonce, Timestamp, BaseString, ID: String;
+//  Debug: TStringStream;
   XML: TXMLDocument;
 begin
   XML := TXMLDocument.Create(Application);
@@ -200,7 +201,14 @@ begin
       XML.LoadFromStream(HTTPclient.Post(FLICKR_UPLOAD_URL,Request).ContentStream);
 //      XML.SaveToFile('debug.xml');
     except
-      raise Exception.Create('Ошибка при загрузке фото (Flickr/HTTP)');
+//      on E: Exception do
+//      begin
+//        Debug := TStringStream.Create;
+//        Debug.WriteString(E.Message);
+//        Debug.SaveToFile('except_more.txt');
+//        Debug.Free;
+//      end;
+        raise Exception.Create('Ошибка при загрузке фото (Flickr/HTTP)');
     end;
     try
       if XML.ChildNodes[1].ChildNodes[0].NodeName <> 'photoid' then

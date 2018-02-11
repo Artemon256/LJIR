@@ -4,7 +4,7 @@ interface
 
 uses
   System.Net.HTTPClientComponent, LJAPI, FlickrAPI, System.Classes, ShellAPI,
-  WinAPI.Windows, System.SysUtils, System.Net.URLClient;
+  WinAPI.Windows, System.SysUtils, System.Net.URLClient, ActiveX;
 
 type
   TProgressBarCallback = procedure(value: Integer; Total: Boolean) of object;
@@ -313,13 +313,21 @@ end;
 procedure TFix.Execute;
 var
   i: Integer;
+//  Debug: TStringStream;
 begin
+//  Debug := TStringStream.Create;
+  CoInitialize(nil);
   for i := 0 to URLS.Count-1 do
     try
       if Terminated then Exit;
       LastPost := URLs[i];
       FixEvent(URLS[i]);
     except
+//      On E: Exception do
+//      begin
+//        Debug.WriteString(E.Message);
+//        Debug.SaveToFile('except.txt');
+//      end;
       Continue;
     end;
 end;

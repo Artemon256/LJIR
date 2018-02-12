@@ -31,10 +31,6 @@ object fmMain: TfmMain
     object tsLJLogin: TTabSheet
       Caption = 'tsLJLogin'
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbParams: TGroupBox
         Left = 295
         Top = 3
@@ -119,10 +115,6 @@ object fmMain: TfmMain
       Caption = 'tsFlickr'
       ImageIndex = 1
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbExplain2: TGroupBox
         Left = 3
         Top = 3
@@ -176,10 +168,6 @@ object fmMain: TfmMain
       Caption = 'tsFlickrAuth'
       ImageIndex = 2
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbExplain3: TGroupBox
         Left = 3
         Top = 3
@@ -1572,10 +1560,6 @@ object fmMain: TfmMain
       Caption = 'tsProxy'
       ImageIndex = 3
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbExplain4: TGroupBox
         Left = 3
         Top = 3
@@ -1697,12 +1681,26 @@ object fmMain: TfmMain
         Top = 0
         Width = 576
         Height = 251
-        ActivePage = tsProgress
+        ActivePage = tsSetting
         Align = alClient
         TabOrder = 0
         object tsSetting: TTabSheet
           Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
           TabVisible = False
+          object lbHint: TLabel
+            Left = 3
+            Top = 192
+            Width = 476
+            Height = 41
+            AutoSize = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            WordWrap = True
+          end
           object moDomains: TMemo
             Left = 287
             Top = 3
@@ -1710,10 +1708,12 @@ object fmMain: TfmMain
             Height = 183
             TabStop = False
             Lines.Strings = (
-              #1040' '#1089#1102#1076#1072' - '#1076#1086#1084#1077#1085#1099', '#1082#1086#1090#1086#1088#1099#1077' '#1093#1086#1090#1080#1090#1077' '#1086#1073#1088#1072#1073#1086#1090#1072#1090#1100)
+              '!staticflickr.com'
+              '*')
             ScrollBars = ssBoth
             TabOrder = 1
-            OnClick = moDomainsClick
+            OnMouseEnter = moDomainsMouseEnter
+            OnMouseLeave = moDomainsMouseLeave
           end
           object moPosts: TMemo
             Left = 3
@@ -1721,11 +1721,10 @@ object fmMain: TfmMain
             Width = 278
             Height = 183
             TabStop = False
-            Lines.Strings = (
-              #1057#1102#1076#1072' '#1087#1080#1093#1072#1081#1090#1077' '#1089#1089#1099#1083#1082#1080' '#1085#1072' '#1087#1086#1089#1090#1099)
             ScrollBars = ssBoth
             TabOrder = 2
-            OnClick = moPostsClick
+            OnMouseEnter = moPostsMouseEnter
+            OnMouseLeave = moPostsMouseLeave
           end
           object btStart: TButton
             Left = 485

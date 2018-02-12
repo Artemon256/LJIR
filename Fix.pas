@@ -1,10 +1,10 @@
-                                                                                          unit Fix;
+unit Fix;
 
 interface
 
 uses
   System.Net.HTTPClientComponent, LJAPI, FlickrAPI, System.Classes, ShellAPI,
-  WinAPI.Windows, System.SysUtils, System.Net.URLClient, ActiveX;
+  WinAPI.Windows, System.SysUtils, System.Net.URLClient, ActiveX, idURI;
 
 type
   TProgressBarCallback = procedure(value: Integer; Total: Boolean) of object;
@@ -99,10 +99,11 @@ end;
 procedure TFix.FixEvent(EventURL: string);
 var
   Post: TLJPost;
-  Data, CurURL: String;
+  Data, CurURL, Dmn: String;
   BackupStream: TStringStream;
   i, j, ps, q: Integer;
   IsTag, IsImgTag, IsSrc, IsEq, IsURL, IsURLClosed, DomainFound, AnyChange: Boolean;
+  Domain: TIdURI;
 begin
   BackupStream := TStringStream.Create;
   AnyChange := False;
@@ -143,12 +144,23 @@ begin
           else
           begin
             DomainFound := False;
+            Domain := TIdURI.Create(CurURL);
             for j := 0 to Domains.Count-1 do
-              if Pos(Domains[j],CurURL)>0 then
+            begin
+              if Domains[j][1]='!' then
               begin
+                Dmn := Copy(Domains[j],2,Length(Domains[j]));
+                if Pos(Dmn,Domain.Host)>0 then
+                begin
+                  DomainFound := False;
+                  Break;
+                end;
+              end
+              else
+              if (Pos(Domains[j],Domain.Host)>0) or (Domains[j]='*') then
                 DomainFound := True;
-                Break;
-              end;
+            end;
+            Domain.Free;
             if DomainFound then
             begin
               Data := Data + '"' + Reupload(CurURL) + '"';

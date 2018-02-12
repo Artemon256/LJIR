@@ -50,6 +50,7 @@ type
     moProgress: TMemo;
     btStop: TButton;
     btPause: TButton;
+    lbHint: TLabel;
     procedure btLJLoginClick(Sender: TObject);
     procedure btUnderstandClick(Sender: TObject);
     procedure btFlickrAuthClick(Sender: TObject);
@@ -62,10 +63,12 @@ type
     procedure btOKClick(Sender: TObject);
     procedure btStartClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure moDomainsClick(Sender: TObject);
-    procedure moPostsClick(Sender: TObject);
     procedure btStopClick(Sender: TObject);
     procedure btPauseClick(Sender: TObject);
+    procedure moPostsMouseEnter(Sender: TObject);
+    procedure moPostsMouseLeave(Sender: TObject);
+    procedure moDomainsMouseEnter(Sender: TObject);
+    procedure moDomainsMouseLeave(Sender: TObject);
   private
     { Private declarations }
   public
@@ -175,10 +178,6 @@ begin
   Fix.PBCallback := PBCB;
   Fix.EndCallback := EndCallback;
   Fix.ErrCallback := ErrCB;
-  if moDomains.Text = 'А сюда - домены, которые хотите обработать'+#13#10 then
-    moDomains.Clear;
-  if moPosts.Text = 'Сюда пихайте ссылки на посты'+#13#10 then
-    moPosts.Clear;
   Fix.URLS.Assign(moPosts.Lines);
   Fix.Domains.Assign(moDomains.Lines);
   Fix.Start;
@@ -259,16 +258,26 @@ begin
   Pause := False;
 end;
 
-procedure TfmMain.moDomainsClick(Sender: TObject);
+procedure TfmMain.moDomainsMouseEnter(Sender: TObject);
 begin
-  if moDomains.Text = 'А сюда - домены, которые хотите обработать'+#13#10 then
-    moDomains.Clear;
+  lbHint.Font.Size := 8;
+  lbHint.Caption := 'А сюда - фильтры доменов. Чтобы добавить правило - просто впишите его с новой строки. Чтобы исключить домен, укажите перед ним "!". Чтобы указать все домены, кроме исключённых, добавьте "*"';
 end;
 
-procedure TfmMain.moPostsClick(Sender: TObject);
+procedure TfmMain.moDomainsMouseLeave(Sender: TObject);
 begin
-  if moPosts.Text = 'Сюда пихайте ссылки на посты'+#13#10 then
-    moPosts.Clear;
+  lbHint.Font.Size := 12;
+  lbHint.Caption := '';
+end;
+
+procedure TfmMain.moPostsMouseEnter(Sender: TObject);
+begin
+  lbHint.Caption := 'Сюда пихайте ссылки на посты';
+end;
+
+procedure TfmMain.moPostsMouseLeave(Sender: TObject);
+begin
+  lbHint.Caption := '';
 end;
 
 end.

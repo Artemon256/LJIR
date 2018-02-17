@@ -1785,4 +1785,13 @@ object fmMain: TfmMain
       end
     end
   end
+  object alMain: TActionList
+    Left = 296
+    Top = 233
+    object acSelectAll: TAction
+      Caption = 'acSelectAll'
+      ShortCut = 16449
+      OnExecute = acSelectAllExecute
+    end
+  end
 end

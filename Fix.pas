@@ -4,7 +4,7 @@ interface
 
 uses
   System.Net.HTTPClientComponent, LJAPI, FlickrAPI, System.Classes, ShellAPI,
-  WinAPI.Windows, System.SysUtils, System.Net.URLClient, ActiveX, idURI;
+  WinAPI.Windows, System.SysUtils, System.Net.URLClient, ActiveX, idURI, IniFiles;
 
 type
   TProgressBarCallback = procedure(value: Integer; Total: Boolean) of object;
@@ -15,6 +15,7 @@ type
       HTTPclient: TNetHTTPClient;
       LiveJournal: TLiveJournal;
       Flickr: TFlickr;
+      IgnoreSize: Integer;
       function UploadPhoto(Path: string): String;
       function DownloadPhoto(PhotoURL: string): String;
       procedure FixEvent(EventURL: string);
@@ -55,8 +56,13 @@ begin
 end;
 
 constructor TFix.Create(Login, Pass: String);
+var
+  Config: TIniFile;
 begin
   inherited Create(True);
+  Config := TIniFile.Create('config.ini');
+  IgnoreSize := Config.ReadInteger('[FIX]','minimal_picture_size',4096);
+  Config.Free;
   LiveJournal := TLiveJournal.Create(Login, Pass);
   Flickr := TFlickr.Create(APIKEY,SECRET);
   HTTPclient := TNetHTTPClient.Create(nil);
@@ -67,8 +73,13 @@ begin
 end;
 
 constructor TFix.Create(NewFlickr: TFlickr; NewLJ: TLiveJournal; NewHTTP: TNetHTTPClient);
+var
+  Config: TIniFile;
 begin
   inherited Create(True);
+  Config := TIniFile.Create('config.ini');
+  IgnoreSize := Config.ReadInteger('[FIX]','minimal_picture_size',4096);
+  Config.Free;
   LiveJournal := NewLJ;
   Flickr := NewFlickr;
   HTTPclient := NewHTTP;
@@ -257,7 +268,7 @@ var
 begin
   Result := URL;
   Path := DownloadPhoto(URL);
-  if GetFileSize(Path)<4096 then
+  if GetFileSize(Path)<IgnoreSize then
   begin
     System.SysUtils.DeleteFile(Path);
     Exit;

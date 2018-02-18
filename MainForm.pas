@@ -259,7 +259,17 @@ begin
 end;
 
 procedure TfmMain.FormShow(Sender: TObject);
+var
+  Config: TextFile;
 begin
+  if not FileExists('config.ini') then
+  begin
+    AssignFile(Config,'config.ini');
+    Rewrite(Config);
+    Writeln(Config,'[FIX]');
+    Writeln(Config,'minimal_picture_size=4096');
+    CloseFile(Config);
+  end;
   System.SysUtils.CreateDir(SlashDir(OwnDir)+'backup');
   System.SysUtils.CreateDir(SlashDir(OwnDir)+'temp');
   pcMain.ActivePage := tsLJLogin;

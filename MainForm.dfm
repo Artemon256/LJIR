@@ -31,6 +31,10 @@ object fmMain: TfmMain
     object tsLJLogin: TTabSheet
       Caption = 'tsLJLogin'
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbParams: TGroupBox
         Left = 295
         Top = 3
@@ -115,6 +119,10 @@ object fmMain: TfmMain
       Caption = 'tsFlickr'
       ImageIndex = 1
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain2: TGroupBox
         Left = 3
         Top = 3
@@ -168,6 +176,10 @@ object fmMain: TfmMain
       Caption = 'tsFlickrAuth'
       ImageIndex = 2
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain3: TGroupBox
         Left = 3
         Top = 3
@@ -1560,6 +1572,10 @@ object fmMain: TfmMain
       Caption = 'tsProxy'
       ImageIndex = 3
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbExplain4: TGroupBox
         Left = 3
         Top = 3
@@ -1740,6 +1756,10 @@ object fmMain: TfmMain
           Caption = #1055#1088#1086#1075#1088#1077#1089#1089
           ImageIndex = 1
           TabVisible = False
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pbCurrent: TGauge
             Left = 3
             Top = 192
@@ -1786,8 +1806,7 @@ object fmMain: TfmMain
     end
   end
   object alMain: TActionList
-    Left = 296
-    Top = 233
+    Top = 1
     object acSelectAll: TAction
       Caption = 'acSelectAll'
       ShortCut = 16449

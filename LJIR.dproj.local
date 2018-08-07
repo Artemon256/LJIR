@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.010,D:\Projects\Delphi\LJIR\Unit1.pas=D:\Projects\Delphi\LJIR\FlickrAPI.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.772,=D:\Projects\Delphi\LJIR\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.350,D:\Projects\Delphi\LJIR\Unit1.pas=D:\Projects\Delphi\LJIR\Fix.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.115,=D:\Projects\Delphi\LJIR\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.550,D:\Projects\Delphi\LJIR\LJIR.dproj=C:\Users\artem\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.178,=C:\Users\artem\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.445,=D:\Projects\Delphi\LJIR\LJAPI.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.549,D:\Projects\Delphi\LJIR\MainForm.dfm=C:\Users\artem\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.549,D:\Projects\Delphi\LJIR\MainForm.pas=C:\Users\artem\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.772,=D:\Projects\Delphi\LJIR\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.010,D:\Projects\Delphi\LJIR\FlickrAPI.pas=D:\Projects\Delphi\LJIR\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.445,=D:\Projects\Delphi\LJIR\LJAPI.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.115,=D:\Projects\Delphi\LJIR\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.550,C:\Users\artem\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Projects\Delphi\LJIR\LJIR.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.178,=C:\Users\artem\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.549,C:\Users\artem\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\Projects\Delphi\LJIR\MainForm.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.350,D:\Projects\Delphi\LJIR\Fix.pas=D:\Projects\Delphi\LJIR\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.549,C:\Users\artem\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\Projects\Delphi\LJIR\MainForm.pas</Transaction>
   </Transactions>
 </BorlandProject>

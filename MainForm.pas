@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.NetEncoding, Vcl.StdCtrls, idHash,
   ShellAPI, Vcl.ComCtrls, Fix, ClipBrd, Vcl.ExtCtrls, Vcl.Imaging.jpeg,
-  Vcl.Samples.Gauges, System.Actions, Vcl.ActnList;
+  Vcl.Samples.Gauges, System.Actions, Vcl.ActnList, FileCtrl;
 
 type
   TfmMain = class(TForm)
@@ -53,6 +53,13 @@ type
     lbHint: TLabel;
     alMain: TActionList;
     acSelectAll: TAction;
+    tsChooseDir: TTabSheet;
+    gbExplain5: TGroupBox;
+    Label5: TLabel;
+    gbParams5: TGroupBox;
+    btChooseImageFolder: TButton;
+    edPathToFolder: TEdit;
+    btOk2: TButton;
     procedure btLJLoginClick(Sender: TObject);
     procedure btUnderstandClick(Sender: TObject);
     procedure btFlickrAuthClick(Sender: TObject);
@@ -72,8 +79,11 @@ type
     procedure moDomainsMouseEnter(Sender: TObject);
     procedure moDomainsMouseLeave(Sender: TObject);
     procedure acSelectAllExecute(Sender: TObject);
+    procedure btChooseImageFolderClick(Sender: TObject);
+    procedure edPathToFolderExit(Sender: TObject);
+    procedure btOk2Click(Sender: TObject);
   private
-    { Private declarations }
+    ImgDir: String;
   public
     procedure PBCB(value: Integer; Total: Boolean);
     procedure EndCallback;
@@ -117,16 +127,40 @@ begin
     (ActiveControl as TMemo).SelectAll;
 end;
 
+procedure TfmMain.btChooseImageFolderClick(Sender: TObject);
+var
+  Folder: String;
+begin
+  if SelectDirectory('Выберите папку с файлами','Desktop',Folder) then
+  begin
+    edPathToFolder.Text := Folder;
+  end;
+end;
+
 procedure TfmMain.btFlickrAuthClick(Sender: TObject);
 begin
   Fix.FlickrAuth(Clipboard.AsText);
-  pcMain.ActivePage := tsProxy;
+  pcMain.ActivePage := tsChooseDir;
 end;
 
 procedure TfmMain.btLJLoginClick(Sender: TObject);
 begin
   Fix := TFix.Create(edLogin.Text,edPass.Text);
   pcMain.ActivePage := tsFlickr;
+end;
+
+procedure TfmMain.btOk2Click(Sender: TObject);
+begin
+  if not DirectoryExists(edPathToFolder.Text) then
+  begin
+    ShowMessage('Заданный путь недействителен');
+  end
+  else
+  begin
+    ImgDir := edPathToFolder.Text;
+    pcMain.ActivePage := tsMain;
+    pcReuploader.ActivePage := tsSetting;
+  end;
 end;
 
 procedure TfmMain.btOKClick(Sender: TObject);
@@ -189,6 +223,7 @@ begin
   Fix.ErrCallback := ErrCB;
   Fix.URLS.Assign(moPosts.Lines);
   Fix.Domains.Assign(moDomains.Lines);
+  Fix.ImgDir := ImgDir;
   Fix.Start;
 //  pcMain.Enabled := False;
 end;
@@ -224,6 +259,15 @@ begin
   if edPass.Text <> 'Пароль' then Exit;
   edPass.Text := '';
   edPass.PasswordChar := '*';
+end;
+
+procedure TfmMain.edPathToFolderExit(Sender: TObject);
+begin
+  if not DirectoryExists(edPathToFolder.Text) then
+  begin
+    ShowMessage('Заданный путь недействителен!');
+    edPathToFolder.Text := '';
+  end;
 end;
 
 procedure TfmMain.edPortClick(Sender: TObject);

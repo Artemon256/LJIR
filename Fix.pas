@@ -27,7 +27,7 @@ type
       PBCallback: TProgressBarCallback;
       EndCallback: TEndCallback;
       ErrCallback: TErrCallback;
-      LastPost: String;
+      LastPost, ImgDir: String;
       constructor Create(Login, Pass: String); overload;
       procedure FlickrRedirect;
       procedure FlickrAuth(Verifier: String);
@@ -267,12 +267,14 @@ var
   Path: String;
 begin
   Result := URL;
-  Path := DownloadPhoto(URL);
-  if GetFileSize(Path)<IgnoreSize then
-  begin
-    System.SysUtils.DeleteFile(Path);
+  Path := SlashDir(ImgDir) + ExtractFileName(StringReplace(URL,'/','\',[rfReplaceAll]));
+  if not FileExists(Path) then
     Exit;
-  end;
+//  if GetFileSize(Path)<IgnoreSize then
+//  begin
+//    System.SysUtils.DeleteFile(Path);
+//    Exit;
+//  end;
   Result := UploadPhoto(Path);
 end;
 
@@ -291,7 +293,7 @@ begin
       end;
     end;
   finally
-    System.SysUtils.DeleteFile(Path);
+//    System.SysUtils.DeleteFile(Path);
   end;
 end;
 
